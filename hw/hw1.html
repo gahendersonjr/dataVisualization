@@ -1,12 +1,140 @@
 <!DOCTYPE html>
 <html>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>HW1</title>
+  </head>
+  <style>
+    .blue {
+      stroke:blue;
+      fill: blue;
+    }
+    .red {
+      stroke:red;
+      fill: red;
+    }
+    .no-fill {
+      fill: none;
+    }
+  </style>
+  <body>
+    <h4>
+      Homework 1, Gregory Henderson
+      <br/>
+      CS 5890 - Data Visualization
+    </h4>
+    <svg height=150 width=300>
+      <g transform="translate(5, 110) scale(2.5, -2.5)">
+        <path class="blue no-fill" d="
+          M 5 10.0
+          L 10 8.0
+          L 15 13.0
+          L 20 9.0
+          L 25 11.0
+          L 30 14.0
+          L 35 6.0
+          L 40 4.0
+          L 45 12.0
+          L 50 7.0
+          L 55 5.0"/>
+      </g>
+      <g transform="translate(150, 110) scale(2.5, -2.5)">
+        <path class="red no-fill" d="
+          M 5 7.46
+          L 10 6.77
+          L 15 12.74
+          L 20 7.11
+          L 25 7.81
+          L 30 8.84
+          L 35 6.08
+          L 40 5.39
+          L 45 8.15
+          L 50 6.42
+          L 55 5.73"/>
+      </g>
+    </svg>
 
-<h1>CS 5890 - Homework 1</h1>
+    <svg height=150 width=300>
+      <g transform="translate(5, 110) scale(2.5, -2.5)">
+        <path class="blue" d="
+          M 5 10.0
+          L 10 8.0
+          L 15 13.0
+          L 20 9.0
+          L 25 11.0
+          L 30 14.0
+          L 35 6.0
+          L 40 4.0
+          L 45 12.0
+          L 50 7.0
+          L 55 5.0
+          L 55 0
+          L 5 0
+          L 5 10"/>
+      </g>
+      <g transform="translate(150, 110) scale(2.5, -2.5)">
+        <path class="red" d="
+          M 5 7.46
+          L 10 6.77
+          L 15 12.74
+          L 20 7.11
+          L 25 7.81
+          L 30 8.84
+          L 35 6.08
+          L 40 5.39
+          L 45 8.15
+          L 50 6.42
+          L 55 5.73
+          L 55 0
+          L 5 0
+          L 5 7.46"/>
+      </g>
+    </svg>
+    <br/>
+    <svg height=150 width=300>
+      <g transform="translate(30, 120) scale(1, -5)" class="blue">
+        <rect x=0 y=0 width=6 height=10 />
+        <rect x=10 y=0 width=6 height=8 />
+        <rect x=20 y=0 width=6 height=13 />
+        <rect x=30 y=0 width=6 height=9 />
+        <rect x=40 y=0 width=6 height=11 />
+        <rect x=50 y=0 width=6 height=14 />
+        <rect x=60 y=0 width=6 height=6 />
+        <rect x=70 y=0 width=6 height=4 />
+        <rect x=80 y=0 width=6 height=12 />
+        <rect x=90 y=0 width=6 height=7 />
+        <rect x=100 y=0 width=6 height=5 />
+      </g>
 
-<svg width="100" height="100">
- <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
-</svg>
+      <g transform="translate(150, 120) scale(1, -5)" class="red">
+        <rect x=0 y=0 width=6 height=7.46 fill="red"/>
+        <rect x=10 y=0 width=6 height=6.77 fill="red"/>
+        <rect x=20 y=0 width=6 height=12.74 fill="red"/>
+        <rect x=30 y=0 width=6 height=7.11 fill="red"/>
+        <rect x=40 y=0 width=6 height=7.81 fill="red"/>
+        <rect x=50 y=0 width=6 height=8.84 fill="red"/>
+        <rect x=60 y=0 width=6 height=6.08 fill="red"/>
+        <rect x=70 y=0 width=6 height=5.39 fill="red"/>
+        <rect x=80 y=0 width=6 height=8.15 fill="red"/>
+        <rect x=90 y=0 width=6 height=6.42 fill="red"/>
+        <rect x=100 y=0 width=6 height=5.73 fill="red"/>
+      </g>
+    </svg>
 
-</body>
+    <svg height=150 width=300>
+      <g transform="translate(50, 175) scale(10, -10)">
+        <circle cx="10" cy="7.46" r=".5"/>
+        <circle cx="8" cy="6.77" r=".5"/>
+        <circle cx="13" cy="12.74" r=".5"/>
+        <circle cx="9" cy="7.11" r=".5"/>
+        <circle cx="11" cy="7.81" r=".5"/>
+        <circle cx="14" cy="8.84" r=".5"/>
+        <circle cx="6" cy="6.08" r=".5"/>
+        <circle cx="4" cy="5.39" r=".5"/>
+        <circle cx="12" cy="8.15" r=".5"/>
+        <circle cx="7" cy="6.42" r=".5"/>
+        <circle cx="5" cy="5.73" r=".5"/>
+      </g>
+    </svg>
+  </body>
 </html>
