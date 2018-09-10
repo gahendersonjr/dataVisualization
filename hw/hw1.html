@@ -17,13 +17,24 @@
       .no-fill {
         fill: none !important;
       }
+      h4 {
+        text-align: center;
+      }
+      body {
+        margin:auto;
+        max-width: 605px;
+      }
     </style>
     <h4>
-      Homework 1, Gregory Henderson
+      CS-5890 Homework 1
       <br/>
-      CS 5890 - Data Visualization
+      Gregory Henderson, A01257761
+      <br/>
+      gahendersonjr@gmail.com
     </h4>
     <svg height=150 width=300>
+      <text y=20 x=100>Line charts</text>
+      <text y=130 x=65>X</text>
       <g transform="translate(5, 110) scale(2.5, -2.5)">
         <path class="blue no-fill" d="
           M 5 10.0
@@ -38,6 +49,7 @@
           L 50 7.0
           L 55 5.0"/>
       </g>
+      <text y=130 x=210>Y</text>
       <g transform="translate(150, 110) scale(2.5, -2.5)">
         <path class="red no-fill" d="
           M 5 7.46
@@ -55,6 +67,8 @@
     </svg>
 
     <svg height=150 width=300>
+      <text y=20 x=100>Area charts</text>
+      <text y=130 x=65>X</text>
       <g transform="translate(5, 110) scale(2.5, -2.5)">
         <path class="blue" d="
           M 5 10.0
@@ -72,6 +86,7 @@
           L 5 0
           L 5 10"/>
       </g>
+      <text y=130 x=210>Y</text>
       <g transform="translate(150, 110) scale(2.5, -2.5)">
         <path class="red" d="
           M 5 7.46
@@ -92,6 +107,8 @@
     </svg>
     <br/>
     <svg height=150 width=300>
+      <text y=20 x=100>Bar charts</text>
+      <text y=150 x=70>X</text>
       <g transform="translate(30, 120) scale(1, -5)" class="blue">
         <rect x=0 y=0 width=6 height=10 />
         <rect x=10 y=0 width=6 height=8 />
@@ -105,7 +122,7 @@
         <rect x=90 y=0 width=6 height=7 />
         <rect x=100 y=0 width=6 height=5 />
       </g>
-
+      <text y=150 x=190>Y</text>
       <g transform="translate(150, 120) scale(1, -5)" class="red">
         <rect x=0 y=0 width=6 height=7.46 />
         <rect x=10 y=0 width=6 height=6.77 />
@@ -122,6 +139,9 @@
     </svg>
 
     <svg height=150 width=300>
+      <text y=20 x=100>Scatter chart</text>
+      <text y=80 x=60>Y</text>
+      <text y=150 x=140>X</text>
       <g transform="translate(50, 175) scale(10, -10)">
         <circle cx="10" cy="7.46" r=".5"/>
         <circle cx="8" cy="6.77" r=".5"/>
