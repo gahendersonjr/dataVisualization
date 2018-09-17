@@ -29,15 +29,10 @@ class Tree {
 	 * Function that builds a tree from a list of nodes with parent refs
 	 */
 	buildTree() {
-			this.deepestLevel = 0;
 			this.assignLevel(this.nodesList[0], 0);
 			this.positionMap = new Map();
 			this.assignPosition(this.nodesList[0], 0);
-
-			for(var i in this.nodesList){
-				console.log(this.nodesList[i]);
-			}
-    }
+	}
 
 	/**
 	 * Recursive function that assign positions to each node
@@ -70,7 +65,37 @@ class Tree {
 	 * Function that renders the tree
 	 */
 	renderTree() {
+		let svg = d3.select("body")
+			.append("svg")
+			.attr("width", 1200)
+			.attr("height", 1200);
 
+		svg.selectAll("circle")
+		  .data(this.nodesList)
+		  .enter()
+		  .append("circle")
+		  .attr("cx", d => d.level*140+50)
+		  .attr("cy", d => d.position*100+50)
+		  .attr("r", 45);
+
+
+		svg.selectAll("text")
+			.data(this.nodesList)
+			.enter()
+			.append("text")
+			.attr("x", d => d.level*140+50)
+			.attr("y", d => d.position*100+55)
+			.attr("text-anchor", "middle")
+			.html(d => d.name);
+
+		// svg.selectAll("line")
+		// 	.data(this.nodesList)
+		// 	.enter()
+		// 	.append("line")
+		// 	.attr("x1", d => d.parentNode.level*140+50)
+		// 	.attr("y1", d => d.parentNode.position*100+55)
+		// 	.attr("x2", d => d.level*140+50)
+		// 	.attr("y2", d => d.position*100+55);
     }
 
 }
