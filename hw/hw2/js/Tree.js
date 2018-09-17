@@ -87,7 +87,6 @@ class Tree {
 		  .attr("cy", d => d.position*100+50)
 		  .attr("r", 45);
 
-
 		svg.selectAll("text")
 			.data(this.nodesList)
 			.enter()
