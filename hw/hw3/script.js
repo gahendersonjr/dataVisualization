@@ -4,8 +4,13 @@
  * Note: use only the DOM API, not D3!
  */
 function staircase() {
-  // ****** TODO: PART II ******
-  console.log("hello world");
+  let bars = document.getElementById("chart1").getElementsByTagName("rect");
+  let height = 10;
+  for(let i=0; i<bars.length; i++){
+    console.log(bars[i]);
+    bars[i].setAttribute("height", height);
+    height+=15;
+  }
 }
 
 /**
