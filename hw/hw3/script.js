@@ -29,10 +29,19 @@ function update(data) {
     .domain([0, data.length])
     .range([0, 110]);
 
-  d3.select("body")
-    .selectAll("#barChart1 > rect")
-    .data(data)
+  let barChart1 = d3.select("#barChart1")
+    .selectAll("rect")
+    .data(data);
+
+  barChart1.enter()
+    .append("rect")
+    .merge(barChart1)
     .attr("height", d => aScale(d.a))
+    .attr("width", "10")
+    .attr("x", function(d,i){
+      return (i+1)*10;
+    })
+    .attr("y", "0")
     .on("mouseover", function(){
       d3.select(this).attr("fill", "lightblue")
     })
@@ -40,16 +49,31 @@ function update(data) {
       d3.select(this).attr("fill", "steelblue")
     });
 
-  d3.select("body")
-    .selectAll("#barChart2 > rect")
-    .data(data)
+  barChart1.exit()
+    .remove();
+
+  let barChart2 = d3.select("#barChart2")
+    .selectAll("rect")
+    .data(data);
+
+  barChart2.enter()
+    .append("rect")
+    .merge(barChart2)
     .attr("height", d => bScale(d.b))
+    .attr("width", "10")
+    .attr("x", function(d,i){
+      return (i+1)*10;
+    })
+    .attr("y", "0")
     .on("mouseover", function(){
       d3.select(this).attr("fill", "lightblue")
     })
     .on("mouseout", function(){
       d3.select(this).attr("fill", "steelblue")
     });
+
+  barChart2.exit()
+    .remove();
 
   let aLineGenerator = d3.line()
     .x((d, i) => iScale(i))
@@ -89,15 +113,20 @@ function update(data) {
   d3.select("#area2")
     .attr("d", bArea);
 
-  d3.select("body")
-    .selectAll("#scatter > circle")
-    .data(data)
+  let scatter = d3.select("#scatter")
+    .selectAll("circle")
+    .data(data);
+
+  scatter.enter()
+    .append("circle")
+    .merge(scatter)
     .attr("cx", d => aScale(d.a))
     .attr("cy", d => aScale(d.b))
+    .attr("r", "5")
     .on("click", d => console.log(`(${d.a}, ${d.b})`));
 
-  // ****** TODO: PART IV ******
-
+  scatter.exit()
+    .remove();
 }
 
 /**
