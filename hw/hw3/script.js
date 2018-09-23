@@ -35,21 +35,29 @@ function update(data) {
 
   barChart1.enter()
     .append("rect")
+    .style("opacity", "0")
     .merge(barChart1)
-    .attr("height", d => aScale(d.a))
-    .attr("width", "10")
-    .attr("x", function(d,i){
-      return (i+1)*10;
-    })
-    .attr("y", "0")
     .on("mouseover", function(){
       d3.select(this).attr("fill", "lightblue")
     })
     .on("mouseout", function(){
       d3.select(this).attr("fill", "steelblue")
-    });
+    })
+    .attr("x", function(d,i){
+      return (i+1)*10;
+    })
+    .attr("y", "0")
+    .transition()
+    .duration(1000)
+    .attr("height", d => aScale(d.a))
+    .attr("width", "10")
+    .style("opacity", "1");
 
   barChart1.exit()
+    .transition()
+    .duration(1000)
+    .style("opacity", "0")
+    .attr("height", "0")
     .remove();
 
   let barChart2 = d3.select("#barChart2")
@@ -58,21 +66,29 @@ function update(data) {
 
   barChart2.enter()
     .append("rect")
+    .style("opacity", "0")
     .merge(barChart2)
-    .attr("height", d => bScale(d.b))
-    .attr("width", "10")
-    .attr("x", function(d,i){
-      return (i+1)*10;
-    })
-    .attr("y", "0")
     .on("mouseover", function(){
       d3.select(this).attr("fill", "lightblue")
     })
     .on("mouseout", function(){
       d3.select(this).attr("fill", "steelblue")
-    });
+    })
+    .attr("x", function(d,i){
+      return (i+1)*10;
+    })
+    .attr("y", "0")
+    .transition()
+    .duration(1000)
+    .attr("height", d => bScale(d.b))
+    .attr("width", "10")
+    .style("opacity", "1");
 
   barChart2.exit()
+    .transition()
+    .duration(1000)
+    .style("opacity", "0")
+    .attr("height", "0")
     .remove();
 
   let aLineGenerator = d3.line()
@@ -82,6 +98,8 @@ function update(data) {
   let aLine = aLineGenerator(data);
 
   d3.select("#line1")
+    .transition()
+    .duration(1000)
     .attr("d", aLine);
 
   let bLineGenerator = d3.line()
@@ -91,6 +109,8 @@ function update(data) {
   let bLine = bLineGenerator(data);
 
   d3.select("#line2")
+    .transition()
+    .duration(1000)
     .attr("d", bLine);
 
   let aAreaGenerator = d3.area()
@@ -101,6 +121,8 @@ function update(data) {
   let aArea = aAreaGenerator(data);
 
   d3.select("#area1")
+    .transition()
+    .duration(1000)
     .attr("d", aArea);
 
   let bAreaGenerator = d3.area()
@@ -111,6 +133,8 @@ function update(data) {
   let bArea = bAreaGenerator(data);
 
   d3.select("#area2")
+    .transition()
+    .duration(1000)
     .attr("d", bArea);
 
   let scatter = d3.select("#scatter")
@@ -119,13 +143,23 @@ function update(data) {
 
   scatter.enter()
     .append("circle")
-    .merge(scatter)
+    .style("opacity", "0")
     .attr("cx", d => aScale(d.a))
     .attr("cy", d => aScale(d.b))
     .attr("r", "5")
-    .on("click", d => console.log(`(${d.a}, ${d.b})`));
+    .merge(scatter)
+    .on("click", d => console.log(`(${d.a}, ${d.b})`))
+    .transition()
+    .duration(1000)
+    .style("opacity", "1")
+    .attr("cx", d => aScale(d.a))
+    .attr("cy", d => aScale(d.b))
+    .attr("r", "5");
 
   scatter.exit()
+    .transition()
+    .duration(1000)
+    .style("opacity", "0")
     .remove();
 }
 
