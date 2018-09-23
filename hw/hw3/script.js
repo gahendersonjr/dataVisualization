@@ -32,12 +32,24 @@ function update(data) {
   d3.select("body")
     .selectAll("#barChart1 > rect")
     .data(data)
-    .attr("height", d => aScale(d.a));
+    .attr("height", d => aScale(d.a))
+    .on("mouseover", function(){
+      d3.select(this).attr("fill", "lightblue")
+    })
+    .on("mouseout", function(){
+      d3.select(this).attr("fill", "steelblue")
+    });
 
   d3.select("body")
     .selectAll("#barChart2 > rect")
     .data(data)
-    .attr("height", d => bScale(d.b));
+    .attr("height", d => bScale(d.b))
+    .on("mouseover", function(){
+      d3.select(this).attr("fill", "lightblue")
+    })
+    .on("mouseout", function(){
+      d3.select(this).attr("fill", "steelblue")
+    });
 
   let aLineGenerator = d3.line()
     .x((d, i) => iScale(i))
@@ -81,7 +93,8 @@ function update(data) {
     .selectAll("#scatter > circle")
     .data(data)
     .attr("cx", d => aScale(d.a))
-    .attr("cy", d => aScale(d.b));
+    .attr("cy", d => aScale(d.b))
+    .on("click", d => console.log(`(${d.a}, ${d.b})`));
 
   // ****** TODO: PART IV ******
 
