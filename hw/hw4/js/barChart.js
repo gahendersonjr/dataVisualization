@@ -10,25 +10,61 @@ class BarChart {
   constructor(worldMap, infoPanel, allData) {
     this.worldMap = worldMap;
     this.infoPanel = infoPanel;
-    this.allData = allData;
+    this.allData = allData.reverse();
+    this.years = []
+    for(let i in this.allData){
+      if(this.allData[i].year){
+      this.years.push(this.allData[i].year);
+    }
+    }
   }
 
   /**
    * Render and update the bar chart based on the selection of the data type in the drop-down box
    */
   updateBarChart(selectedDimension) {
+    // console.log(selectedDimension);
+    // console.log(this.allData[0].year);
     // ******* TODO: PART I *******
-
     // Create the x and y scales; make
     // sure to leave room for the axes
-    
 
     // Create colorScale
 
     // Create the axes (hint: use #xAxis and #yAxis)
+    console.log(this.years);
+    let xScale = d3.scaleBand()
+      .domain(this.years)
+      .range([20, 480]);
+
+    let xAxis = d3.axisBottom()
+      .scale(xScale)
+      .tickValues(this.years);
+      
+    d3.select("#xAxis")
+      .call(xAxis)
+      .selectAll("text")
+        .attr("dx", "25")
+        .attr("dy", "-5")
+        .attr("transform", "rotate(90)" );
+
 
     // Create the bars (hint: use #bars)
 
+    let aScale = d3.scaleLinear()
+      .domain([0, d3.max(this.allData, d => d.matches)])
+      .range([0, 350]);
+    d3.select("#bars")
+      .selectAll("rect")
+      .data(this.allData)
+      .enter()
+      .append("rect")
+      .attr("height", d => aScale(d.matches))
+      .attr("width", "5")
+      .attr("x", function(d,i){
+        return (i+1)*10;
+      })
+      .attr("y", "0");
 
     // ******* TODO: PART II *******
 
