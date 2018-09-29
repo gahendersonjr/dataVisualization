@@ -60,17 +60,13 @@ class BarChart {
       .call(yAxis);
 
     // Create the bars (hint: use #bars)
-      let aScale = d3.scaleLinear()
-        .domain([0, d3.max(this.allData, d => d.matches)])
-        .range([0, 350]);
-
       d3.select("#bars")
         .selectAll("rect")
         .data(this.allData)
         .enter()
         .append("rect")
         .attr("fill", d => colorScale(d.matches))
-        .attr("height", d => aScale(d.matches))
+        .attr("height", d => 350-yScale(d.matches))
         .attr("width", "15")
         .attr("x", function(d,i){
           return (i+1)*23;
