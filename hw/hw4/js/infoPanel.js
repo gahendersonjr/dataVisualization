@@ -12,6 +12,17 @@ class InfoPanel {
    */
   updateInfo(oneWorldCup) {
     console.log(oneWorldCup);
+    document.getElementById("host").innerText = oneWorldCup.host;
+    document.getElementById("winner").innerText = oneWorldCup.winner;
+    document.getElementById("silver").innerText = oneWorldCup.runner_up;
+
+    let list = document.getElementById("teams");
+    list.innerHTML = '';
+    for (let i in oneWorldCup.teams_names){
+      let item = document.createElement("li");
+      item.innerText = oneWorldCup.teams_names[i];
+      list.appendChild(item);
+    }
     // ******* TODO: PART III *******
 
     // Update the text elements in the infoBox to reflect:
