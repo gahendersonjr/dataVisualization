@@ -95,9 +95,14 @@ class BarChart {
             selected[0].classList.remove("selected");
           }
           d3.select(this).attr("class", "selected");
-          // console.log(a);
           map.updateMap(all[i]);
           info.updateInfo(all[i]);
+        })
+        .attr("class", function(d,i){
+          if(document.getElementById("edition").innerText.includes(all[i].year)){
+            console.log("hello");
+            return "selected";
+          }
         });
 
     // ******* TODO: PART II *******
