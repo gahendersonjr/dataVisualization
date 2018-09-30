@@ -44,7 +44,7 @@ class BarChart {
     // sure to leave room for the axes
     let xScale = d3.scaleBand()
       .domain(this.years)
-      .range([20, 480]);
+      .range([45, 480]);
 
     let yScale = d3.scaleLinear()
       .domain([0, d3.max(data, d => d)])
@@ -79,13 +79,11 @@ class BarChart {
         .data(data)
         .enter()
         .append("rect")
-        .attr("fill", d => colorScale(d))
         .attr("height", d => 350-yScale(d))
+        .attr("fill", d => colorScale(d))
         .attr("width", "15")
-        .attr("x", function(d,i){
-          return (i+1)*23;
-        })
-  .attr("y", "0");
+        .attr("x", (d,i) => (i+1)*21.75 )
+        .attr("y", "0");
 
     // ******* TODO: PART II *******
 
