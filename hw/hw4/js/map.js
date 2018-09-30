@@ -28,7 +28,7 @@ class Map {
    * @param wordcupData the data for one specific world cup
    */
   updateMap(worldcupData) {
-
+    console.log(worldcupData);
     //Clear any previous selections;
     this.clearMap();
 

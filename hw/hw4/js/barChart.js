@@ -16,6 +16,7 @@ class BarChart {
     this.matches = [];
     this.teams = [];
     this.goals = [];
+    this.previous;
     for(let i in this.allData){
       if(this.allData[i].year){
         this.years.push(this.allData[i].year);
@@ -25,6 +26,7 @@ class BarChart {
         this.goals.push(this.allData[i].goals);
       }
     }
+    this.currentSelected = [];
   }
 
   /**
@@ -53,7 +55,7 @@ class BarChart {
     // Create colorScale
     let colorScale = d3.scaleLinear()
       .domain([0, d3.max(data, d => d)])
-      .range(["white", "darkred"]);
+      .range(["white", "blue"]);
 
     // Create the axes (hint: use #xAxis and #yAxis)
     let xAxis = d3.axisBottom()
@@ -74,6 +76,9 @@ class BarChart {
       .call(yAxis);
 
     // Create the bars (hint: use #bars)
+    let map = this.worldMap;
+    let info = this.infoPanel;
+    let all = this.allData;
     d3.select("#bars")
         .selectAll("rect")
         .data(data)
@@ -83,7 +88,17 @@ class BarChart {
         .attr("fill", d => colorScale(d))
         .attr("width", "15")
         .attr("x", (d,i) => (i+1)*21.75 )
-        .attr("y", "0");
+        .attr("y", "0")
+        .on("click", function(d, i){
+          var selected = document.getElementsByClassName("selected");
+          if(selected[0]){
+            selected[0].classList.remove("selected");
+          }
+          d3.select(this).attr("class", "selected");
+          // console.log(a);
+          map.updateMap(all[i]);
+          info.updateInfo(all[i]);
+        });
 
     // ******* TODO: PART II *******
 

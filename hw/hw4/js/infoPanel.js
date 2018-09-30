@@ -11,7 +11,7 @@ class InfoPanel {
    * @param oneWorldCup the currently selected world cup
    */
   updateInfo(oneWorldCup) {
-
+    console.log(oneWorldCup);
     // ******* TODO: PART III *******
 
     // Update the text elements in the infoBox to reflect:
