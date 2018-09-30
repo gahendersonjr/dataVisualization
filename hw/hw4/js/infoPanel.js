@@ -12,6 +12,7 @@ class InfoPanel {
    */
   updateInfo(oneWorldCup) {
     console.log(oneWorldCup);
+    document.getElementById("edition").innerText = oneWorldCup.EDITION;
     document.getElementById("host").innerText = oneWorldCup.host;
     document.getElementById("winner").innerText = oneWorldCup.winner;
     document.getElementById("silver").innerText = oneWorldCup.runner_up;
