@@ -12,9 +12,17 @@ class BarChart {
     this.infoPanel = infoPanel;
     this.allData = allData.reverse();
     this.years = []
+    this.attendance = [];
+    this.matches = [];
+    this.teams = [];
+    this.goals = [];
     for(let i in this.allData){
       if(this.allData[i].year){
         this.years.push(this.allData[i].year);
+        this.attendance.push(this.allData[i].attendance);
+        this.matches.push(this.allData[i].matches);
+        this.teams.push(this.allData[i].teams);
+        this.goals.push(this.allData[i].goals);
       }
     }
   }
@@ -24,7 +32,13 @@ class BarChart {
    */
   updateBarChart(selectedDimension) {
     // console.log(selectedDimension);
-    console.log(this.allData);
+    console.log(selectedDimension);
+    let data = [];
+    if(selectedDimension=="attendance"){ data = this.attendance; }
+    if(selectedDimension=="matches"){ data = this.matches; }
+    if(selectedDimension=="teams"){ data = this.teams; }
+    if(selectedDimension=="goals"){ data = this.goals; }
+    console.log(data);
     // ****** TODO: PART I *******
     // Create the x and y scales; make
     // sure to leave room for the axes
@@ -33,12 +47,12 @@ class BarChart {
       .range([20, 480]);
 
     let yScale = d3.scaleLinear()
-      .domain([0, d3.max(this.allData, d => d.matches)])
+      .domain([0, d3.max(data, d => d)])
       .range([350,0]);
 
     // Create colorScale
     let colorScale = d3.scaleLinear()
-      .domain([0, d3.max(this.allData, d => d.matches)])
+      .domain([0, d3.max(data, d => d)])
       .range(["white", "darkred"]);
 
     // Create the axes (hint: use #xAxis and #yAxis)
@@ -60,13 +74,13 @@ class BarChart {
       .call(yAxis);
 
     // Create the bars (hint: use #bars)
-      d3.select("#bars")
+    d3.select("#bars")
         .selectAll("rect")
-        .data(this.allData)
+        .data(data)
         .enter()
         .append("rect")
-        .attr("fill", d => colorScale(d.matches))
-        .attr("height", d => 350-yScale(d.matches))
+        .attr("fill", d => colorScale(d))
+        .attr("height", d => 350-yScale(d))
         .attr("width", "15")
         .attr("x", function(d,i){
           return (i+1)*23;
