@@ -96,15 +96,4 @@ class BarChart {
 
   }
 
-  /**
-   *  Check the drop-down box for the currently selected data type and update the bar chart accordingly.
-   *
-   *  There are 4 attributes that can be selected:
-   *  goals, matches, attendance and teams.
-   */
-  chooseData() {
-    // ******* TODO: PART I *******
-    //Changed the selected data when a user selects a different
-    // menu item from the drop down.
-  }
 }
