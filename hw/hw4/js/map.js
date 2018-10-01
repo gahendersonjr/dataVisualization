@@ -12,7 +12,6 @@ class Map {
    * Function that clears the map
    */
   clearMap() {
-
     // ******* TODO: PART V*******
     // Clear the map of any colors/markers; You can do this with inline styling or by
     // defining a class style in styles.css
@@ -20,7 +19,11 @@ class Map {
     // Hint: If you followed our suggestion of using classes to style
     // the colors and markers for hosts/teams/winners, you can use
     // d3 selection and .classed to set these classes on and off here.
-
+    d3.select("#map")
+      .selectAll("path")
+      .classed("team", false)
+      .classed("host", false)
+      .classed("gold", false);
   }
 
   /**
@@ -28,14 +31,18 @@ class Map {
    * @param wordcupData the data for one specific world cup
    */
   updateMap(worldcupData) {
-    console.log(worldcupData);
+    console.log(worldcupData.teams_iso);
     //Clear any previous selections;
     this.clearMap();
+    for(let i in worldcupData.teams_iso){
+      document.getElementById(worldcupData.teams_iso[i]).classList.add("team");
+    }
+    document.getElementById(worldcupData.host_country_code).classList.add("host");
 
     // ******* TODO: PART V *******
 
     // Add a marker for the winner and runner up to the map.
-
+    // document.getElementByID("")
     // Hint: remember we have a conveniently labeled class called .winner
     // as well as a .silver. These have styling attributes for the two
     // markers.
@@ -56,9 +63,7 @@ class Map {
    * @param the json data with the shape of all countries
    */
   drawMap(world) {
-    console.log(world);
     world = topojson.feature(world,world.objects.countries);
-    console.log(world);
     let path = d3.geoPath()
       .projection(this.projection);
     d3.select("#map").selectAll("path")
@@ -66,24 +71,8 @@ class Map {
       .enter()
       .append("path")
       .attr("class", "countries")
+      .attr("id", d => d.id)
       .attr("d", path);
-
-
-    //(note that projection is a class member
-    // updateMap() will need it to add the winner/runner_up markers.)
-
-    // ******* TODO: PART IV *******
-
-    // Draw the background (country outlines; hint: use #map).
-    // You will need to convert the topoJSON file to geoJSON.
-    // Make sure and add gridlines to the map.
-
-    // Hint: assign an id to each country path to make it easier to select afterwards
-    // we suggest you use the variable in the data element's .id field to set the id
-
-    // Make sure and give your paths the appropriate class (see the .css selectors at
-    // the top of the provided html file)
-
   }
 
 
