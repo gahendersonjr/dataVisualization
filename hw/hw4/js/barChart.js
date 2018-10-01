@@ -34,13 +34,13 @@ class BarChart {
    */
   updateBarChart(selectedDimension) {
     // console.log(selectedDimension);
-    console.log(selectedDimension);
+    // console.log(selectedDimension);
     let data = [];
     if(selectedDimension=="attendance"){ data = this.attendance; }
     if(selectedDimension=="matches"){ data = this.matches; }
     if(selectedDimension=="teams"){ data = this.teams; }
     if(selectedDimension=="goals"){ data = this.goals; }
-    console.log(data);
+    // console.log(data);
     // ****** TODO: PART I *******
     // Create the x and y scales; make
     // sure to leave room for the axes

@@ -56,6 +56,18 @@ class Map {
    * @param the json data with the shape of all countries
    */
   drawMap(world) {
+    console.log(world);
+    world = topojson.feature(world,world.objects.countries);
+    console.log(world);
+    let path = d3.geoPath()
+      .projection(this.projection);
+    d3.select("#map").selectAll("path")
+      .data(world.features)
+      .enter()
+      .append("path")
+      .attr("class", "countries")
+      .attr("d", path);
+
 
     //(note that projection is a class member
     // updateMap() will need it to add the winner/runner_up markers.)
