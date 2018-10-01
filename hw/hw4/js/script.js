@@ -37,16 +37,7 @@ d3.csv("data/fifa-world-cup.csv", function (d) {
   barChart.updateBarChart(list[list.selectedIndex].value);
 });
 
-/**
- *  Check the drop-down box for the currently selected data type and update the bar chart accordingly.
- *
- *  There are 4 attributes that can be selected:
- *  goals, matches, attendance and teams.
- */
 function chooseData() {
-  // ******* TODO: PART I *******
-  // Changed the selected data when a user selects a different
-  // menu item from the drop down.
   d3.select("#bars")
       .selectAll("rect")
       .data([])

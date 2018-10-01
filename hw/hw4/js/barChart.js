@@ -29,21 +29,13 @@ class BarChart {
     this.currentSelected = [];
   }
 
-  /**
-   * Render and update the bar chart based on the selection of the data type in the drop-down box
-   */
   updateBarChart(selectedDimension) {
-    // console.log(selectedDimension);
-    // console.log(selectedDimension);
     let data = [];
     if(selectedDimension=="attendance"){ data = this.attendance; }
     if(selectedDimension=="matches"){ data = this.matches; }
     if(selectedDimension=="teams"){ data = this.teams; }
     if(selectedDimension=="goals"){ data = this.goals; }
-    // console.log(data);
-    // ****** TODO: PART I *******
-    // Create the x and y scales; make
-    // sure to leave room for the axes
+
     let xScale = d3.scaleBand()
       .domain(this.years)
       .range([45, 480]);
@@ -52,12 +44,10 @@ class BarChart {
       .domain([0, d3.max(data, d => d)])
       .range([350,0]);
 
-    // Create colorScale
     let colorScale = d3.scaleLinear()
       .domain([0, d3.max(data, d => d)])
       .range(["white", "blue"]);
 
-    // Create the axes (hint: use #xAxis and #yAxis)
     let xAxis = d3.axisBottom()
       .scale(xScale)
       .tickValues(this.years);
@@ -75,7 +65,6 @@ class BarChart {
     d3.select("#yAxis")
       .call(yAxis);
 
-    // Create the bars (hint: use #bars)
     let map = this.worldMap;
     let info = this.infoPanel;
     let all = this.allData;
@@ -104,16 +93,6 @@ class BarChart {
             return "selected";
           }
         });
-
-    // ******* TODO: PART II *******
-
-    // Implement how the bars respond to click events
-    // Color the selected bar to indicate is has been selected.
-    // Make sure only the selected bar has this new color.
-
-    // Call the necessary update functions for when a user clicks on a bar.
-    // Note: think about what you want to update when a different bar is selected.
-
   }
 
 }

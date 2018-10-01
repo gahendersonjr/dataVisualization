@@ -12,18 +12,13 @@ class Map {
    * Function that clears the map
    */
   clearMap() {
-    // ******* TODO: PART V*******
-    // Clear the map of any colors/markers; You can do this with inline styling or by
-    // defining a class style in styles.css
-
-    // Hint: If you followed our suggestion of using classes to style
-    // the colors and markers for hosts/teams/winners, you can use
-    // d3 selection and .classed to set these classes on and off here.
     d3.select("#map")
       .selectAll("path")
       .classed("team", false)
       .classed("host", false)
       .classed("gold", false);
+    d3.select(".gold").remove();
+    d3.select(".silver").remove();
   }
 
   /**
@@ -32,30 +27,24 @@ class Map {
    */
   updateMap(worldcupData) {
     console.log(worldcupData.teams_iso);
-    //Clear any previous selections;
     this.clearMap();
     for(let i in worldcupData.teams_iso){
       document.getElementById(worldcupData.teams_iso[i]).classList.add("team");
     }
     document.getElementById(worldcupData.host_country_code).classList.add("host");
 
-    // ******* TODO: PART V *******
-
-    // Add a marker for the winner and runner up to the map.
-    // document.getElementByID("")
-    // Hint: remember we have a conveniently labeled class called .winner
-    // as well as a .silver. These have styling attributes for the two
-    // markers.
-
-
-    // Select the host country and change it's color accordingly.
-
-    // Iterate through all participating teams and change their color as well.
-
-    // We strongly suggest using CSS classes to style the selected countries.
-
-
-    // Add a marker for gold/silver medalists
+    d3.select("#points")
+      .append("circle")
+      .attr("cy", this.projection([worldcupData.WIN_LON, worldcupData.WIN_LAT])[1])
+      .attr("cx", this.projection([worldcupData.WIN_LON, worldcupData.WIN_LAT])[0])
+      .attr("r", "5")
+      .attr("class", "gold");
+    d3.select("#points")
+        .append("circle")
+        .attr("cy", this.projection([worldcupData.RUP_LON, worldcupData.RUP_LAT])[1])
+        .attr("cx", this.projection([worldcupData.RUP_LON, worldcupData.RUP_LAT])[0])
+        .attr("r", "5")
+        .attr("class", "silver");
   }
 
   /**
