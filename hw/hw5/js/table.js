@@ -5,15 +5,15 @@ class Table {
    */
   constructor(teamData, treeObject) {
 
-    // Maintain reference to the tree Object; 
-    this.tree = null; 
+    // Maintain reference to the tree Object;
+    this.tree = treeObject;
 
     // Create list of all elements that will populate the table
     // Initially, the tableElements will be identical to the teamData
-    this.tableElements = null; // 
+    this.tableElements = teamData.slice(0, teamData.size); //
 
     // Store all match data for the 2014 Fifa cup
-    this.teamData = null;
+    this.teamData = teamData;
 
     // Default values for the Table Headers
     this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
@@ -33,18 +33,24 @@ class Table {
     this.goalsMadeHeader = 'Goals Made';
     this.goalsConcededHeader = 'Goals Conceded';
 
-    // Setup the scales
-    this.goalScale = null; 
+    // // Setup the scales
+    this.goalScale = d3.scaleLinear()
+      .domain([0, d3.max([d3.max(this.teamData, d => d.value[this.goalsMadeHeader]), d3.max(this.teamData, d => d.value[this.goalsConcededHeader])])])
+      .range([10,145]);
+
+
 
     // Used for games/wins/losses
-    this.gameScale = null; 
+    this.gameScale = null;
 
     // Color scales
     // For aggregate columns  Use colors '#ece2f0', '#016450' for the range.
-    this.aggregateColorScale = null; 
+    this.aggregateColorScale = d3.scaleLinear()
+      .domain([0, d3.max(this.teamData, d => d.value.TotalGames)])
+      .range(['#ece2f0', '#016450']);
 
     // For goal Column. Use colors '#cb181d', '#034e7b'  for the range.
-    this.goalColorScale = null; 
+    this.goalColorScale = null;
   }
 
 
@@ -55,12 +61,21 @@ class Table {
    * games as a function of country.
    */
   createTable() {
-
+    console.log(this.cell.height);
     // ******* TODO: PART II *******
-
     // Update Scale Domains
-
     // Create the x axes for the goalScale.
+    // console.log(this.teamData[0].value["Goals Made"]);
+    let goalAxis = d3.axisTop()
+      .scale(this.goalScale);
+
+    d3.select("#goalHeader")
+      .append("svg")
+      .attr("height", 25)
+      .attr("width", 160)
+      .append("g")
+      .attr("transform", "translate(0,20) scale(1, 1)")
+      .call(goalAxis);
 
     // Add GoalAxis to header of col 1.
 
@@ -68,9 +83,10 @@ class Table {
 
     // Set sorting callback for clicking on headers
 
+
     // Clicking on headers should also trigger collapseList() and
-    // updateTable(). 
-    
+    // updateTable().
+
   }
 
 
@@ -84,10 +100,10 @@ class Table {
 
     // Append th elements for the Team Names
 
-    // Append td elements for the remaining columns. 
+    // Append td elements for the remaining columns.
     // Data for each cell is of the type: {'type':<'game' or 'aggregate'>,
     // 'value':<[array of 1 or two elements]>}
-    
+
     //Add scores as title property to appear on hover
 
     //Populate cells (do one type of cell at a time)
@@ -104,7 +120,7 @@ class Table {
    */
   updateList(i) {
     // ******* TODO: PART IV *******
-    
+
     // Only update list for aggregate clicks, not game clicks
   }
 
@@ -113,7 +129,7 @@ class Table {
    * values per country.
    */
   collapseList() {
-    
+
     // ******* TODO: PART IV *******
 
   }
