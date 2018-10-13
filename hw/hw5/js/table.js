@@ -61,7 +61,6 @@ class Table {
    * games as a function of country.
    */
   createTable() {
-    console.log(this.cell.height);
     // ******* TODO: PART II *******
     // Update Scale Domains
     // Create the x axes for the goalScale.
@@ -97,7 +96,25 @@ class Table {
   updateTable() {
     // ******* TODO: PART III *******
     // Create table rows
+    let table = d3.select("#matchTable").select("tBody");
 
+    let tr = table.selectAll("tr");
+    tr.data(this.tableElements).enter().append("tr");
+    console.log(table.selectAll("tr"));
+
+    let td = table.selectAll("tr").selectAll("td").data(function(d){
+      return [
+      d.key,
+      [d.value["Goals Made"],d.value["Goals Conceded"]],
+      d.value.Result.label,
+      d.value.Wins,
+      d.value.Losses,
+      d.value.TotalGames]
+    }).enter().append("td").html(d => d);
+
+    // for(let i in ["hi", "hello", "sup"]){
+    //   table.append()
+    // }
     // Append th elements for the Team Names
 
     // Append td elements for the remaining columns.
