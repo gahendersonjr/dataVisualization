@@ -98,19 +98,39 @@ class Table {
     // Create table rows
     let table = d3.select("#matchTable").select("tBody");
 
-    let tr = table.selectAll("tr");
-    tr.data(this.tableElements).enter().append("tr");
-    console.log(table.selectAll("tr"));
+    table.selectAll("tr").
+      data(this.tableElements).
+      enter().
+      append("tr");
+    // console.log(table.selectAll("tr"));
 
-    let td = table.selectAll("tr").selectAll("td").data(function(d){
-      return [
-      d.key,
-      [d.value["Goals Made"],d.value["Goals Conceded"]],
-      d.value.Result.label,
-      d.value.Wins,
-      d.value.Losses,
-      d.value.TotalGames]
-    }).enter().append("td").html(d => d);
+    table.selectAll("tr").selectAll("td").data(function(d){
+      // return [
+      // d.key,
+      // [d.value["Goals Made"],d.value["Goals Conceded"]],
+      // d.value.Result.label,
+      // d.value.Wins,
+      // d.value.Losses,
+      // d.value.TotalGames]
+      let data = [];
+      let team = [['type', 'aggregate'],['vis', 'text'],['value', d.key]];
+      data.push(new Map(team));
+      let goals = [['type', 'aggregate'],['vis', 'goals'],['value', [d.value["Goals Made"],d.value["Goals Conceded"]]]];
+      data.push(new Map(goals));
+      let result = [['type', 'aggregate'],['vis', 'text'],['value', d.value.Result.label]];
+      data.push(new Map(result));
+      let wins = [['type', 'aggregate'],['vis', 'bar'],['value', d.value.Wins]];
+      data.push(new Map(wins));
+      let losses = [['type', 'aggregate'],['vis', 'bar'],['value', d.value.Losses]];
+      data.push(new Map(losses));
+      let totalGames = [['type', 'aggregate'],['vis', 'bar'],['value', d.value.TotalGames]];
+      data.push(new Map(totalGames));
+      return data;
+    }).enter().append("td")
+    .filter(function(d){
+      return d.get('vis')=='text';
+    })
+    .html(d => d.get('value'));
 
     // for(let i in ["hi", "hello", "sup"]){
     //   table.append()
