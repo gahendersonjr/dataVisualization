@@ -102,18 +102,10 @@ class Table {
       data(this.tableElements).
       enter().
       append("tr");
-    // console.log(table.selectAll("tr"));
 
-    table.selectAll("tr").selectAll("td").data(function(d){
-      // return [
-      // d.key,
-      // [d.value["Goals Made"],d.value["Goals Conceded"]],
-      // d.value.Result.label,
-      // d.value.Wins,
-      // d.value.Losses,
-      // d.value.TotalGames]
+    let td = table.selectAll("tr").selectAll("td").data(function(d){
       let data = [];
-      let team = [['type', 'aggregate'],['vis', 'text'],['value', d.key]];
+      let team = [['type', 'aggregate'],['vis', 'header'],['value', d.key]];
       data.push(new Map(team));
       let goals = [['type', 'aggregate'],['vis', 'goals'],['value', [d.value["Goals Made"],d.value["Goals Conceded"]]]];
       data.push(new Map(goals));
@@ -126,16 +118,37 @@ class Table {
       let totalGames = [['type', 'aggregate'],['vis', 'bar'],['value', d.value.TotalGames]];
       data.push(new Map(totalGames));
       return data;
-    }).enter().append("td")
-    .filter(function(d){
-      return d.get('vis')=='text';
     })
+    .enter();
+
+    // Append th elements for the Team Names
+
+    td.filter(function(d){
+      return d.get('vis')=='header';
+    })
+    .append("th")
     .html(d => d.get('value'));
 
-    // for(let i in ["hi", "hello", "sup"]){
-    //   table.append()
-    // }
-    // Append th elements for the Team Names
+    //goals
+    td.filter(function(d){
+      return d.get('vis')=='goals';
+    })
+    .append("td")
+    .html(d => "goals" + d.get('value'));
+
+    //result
+    td.filter(function(d){
+      return d.get('vis')=='text';
+    })
+    .append("td")
+    .html(d => d.get('value'));
+
+    //bars
+    td.filter(function(d){
+      return d.get('vis')=='bar';
+    })
+    .append("td")
+    .html(d => "bar" + d.get('value'));
 
     // Append td elements for the remaining columns.
     // Data for each cell is of the type: {'type':<'game' or 'aggregate'>,
