@@ -41,7 +41,8 @@ class Table {
 
 
     // Used for games/wins/losses
-    this.gameScale = null;
+    this.gameScale = d3.scaleLinear()
+      .domain([0, d3.max(this.teamData, d => d.value.TotalGames)]);
 
     // Color scales
     // For aggregate columns  Use colors '#ece2f0', '#016450' for the range.
@@ -94,6 +95,7 @@ class Table {
    * variable tableElements.
    */
   updateTable() {
+    console.log(this.cell.height);
     // ******* TODO: PART III *******
     // Create table rows
     let table = d3.select("#matchTable").select("tBody");
@@ -144,11 +146,25 @@ class Table {
     .html(d => d.get('value'));
 
     //bars
-    td.filter(function(d){
+    let barSVG = td.filter(function(d){
       return d.get('vis')=='bar';
     })
     .append("td")
-    .html(d => "bar" + d.get('value'));
+    .append("svg")
+    .attr("height", this.cell.height)
+    .attr("width", this.cell.width)
+    .attr("transform", "translate(-5,0) scale(1, 1)");
+
+    barSVG.append("rect")
+    .attr("fill", d => this.aggregateColorScale(d.get('value')))
+    .attr("height", this.cell.height)
+    .attr("width", d => this.gameScale(d.get('value'))*this.cell.width);
+
+    barSVG.append("text")
+    .attr("class", "label")
+    .text(d => d.get('value'))
+    .attr("x", d => this.gameScale(d.get('value'))*this.cell.width - 10)
+    .attr("y", "15");
 
     // Append td elements for the remaining columns.
     // Data for each cell is of the type: {'type':<'game' or 'aggregate'>,
