@@ -47,6 +47,7 @@ class Table {
       .attr("transform", "translate(0,20) scale(1, 1)")
       .call(goalAxis);
 
+    //team sort
     d3.select("#team")
       .on("click", function(){
         this.collapseList();
@@ -68,6 +69,118 @@ class Table {
         }
         this.updateTable();
       }.bind(this));
+    //goals sort
+    d3.select("#goals")
+      .on("click", function(){
+        this.collapseList();
+        let element = document.getElementById("goals");
+        if(!element.classList.contains("ascending")){
+          this.tableElements.sort(function(a,b){
+            if(a.value["Goals Made"] > b.value["Goals Made"]) return -1;
+            if(a.value["Goals Made"] < b.value["Goals Made"]) return 1;
+            return 0;
+          });
+          element.classList += " ascending";
+        } else {
+            this.tableElements.sort(function(a,b){
+              if(a.value["Goals Made"] < b.value["Goals Made"]) return -1;
+              if(a.value["Goals Made"] > b.value["Goals Made"]) return 1;
+              return 0;
+            });
+            element.classList.remove("ascending");
+        }
+        this.updateTable();
+      }.bind(this));
+    //result
+    d3.select("#round")
+      .on("click", function(){
+        this.collapseList();
+        let element = document.getElementById("round");
+        if(!element.classList.contains("ascending")){
+          this.tableElements.sort(function(a,b){
+            if(a.value.Result.ranking > b.value.Result.ranking) return -1;
+            if(a.value.Result.ranking < b.value.Result.ranking) return 1;
+            return 0;
+          });
+          element.classList += " ascending";
+        } else {
+            this.tableElements.sort(function(a,b){
+              if(a.value.Result.ranking < b.value.Result.ranking) return -1;
+              if(a.value.Result.ranking > b.value.Result.ranking) return 1;
+              return 0;
+            });
+            element.classList.remove("ascending");
+        }
+        this.updateTable();
+      }.bind(this));
+    //wins
+    d3.select("#wins")
+      .on("click", function(){
+        this.collapseList();
+        let element = document.getElementById("wins");
+        if(!element.classList.contains("ascending")){
+          this.tableElements.sort(function(a,b){
+            if(a.value.Wins > b.value.Wins) return -1;
+            if(a.value.Wins < b.value.Wins) return 1;
+            return 0;
+          });
+            element.classList += " ascending";
+        } else {
+            this.tableElements.sort(function(a,b){
+              if(a.value.Wins < b.value.Wins) return -1;
+              if(a.value.Wins > b.value.Wins) return 1;
+              return 0;
+            });
+            element.classList.remove("ascending");
+        }
+        this.updateTable();
+      }.bind(this));
+    //losses
+    d3.select("#losses")
+      .on("click", function(){
+        this.collapseList();
+        let element = document.getElementById("losses");
+        if(!element.classList.contains("ascending")){
+          this.tableElements.sort(function(a,b){
+            if(a.value.Losses > b.value.Losses) return -1;
+            if(a.value.Losses < b.value.Losses) return 1;
+            return 0;
+          });
+            element.classList += " ascending";
+        } else {
+            this.tableElements.sort(function(a,b){
+              if(a.value.Losses < b.value.Losses) return -1;
+              if(a.value.Losses > b.value.Losses) return 1;
+              return 0;
+            });
+            element.classList.remove("ascending");
+        }
+        this.updateTable();
+      }.bind(this));
+    //totalGames
+    d3.select("#totalGames")
+      .on("click", function(){
+        this.collapseList();
+        let element = document.getElementById("totalGames");
+        if(!element.classList.contains("ascending")){
+          this.tableElements.sort(function(a,b){
+            if(a.value.TotalGames > b.value.TotalGames) return -1;
+            if(a.value.TotalGames < b.value.TotalGames) return 1;
+            return 0;
+          });
+            element.classList += " ascending";
+        } else {
+            this.tableElements.sort(function(a,b){
+              if(a.value.TotalGames < b.value.TotalGames) return -1;
+              if(a.value.TotalGames > b.value.TotalGames) return 1;
+              return 0;
+            });
+            element.classList.remove("ascending");
+        }
+        this.updateTable();
+      }.bind(this));
+
+
   }
 
   updateTable() {
@@ -240,22 +353,19 @@ class Table {
   }
 
   updateList(i) {
-    if(this.tableElements.length - 1 > i && this.tableElements[i+1].value.type=="game"){
-      this.collapseList();
-      this.updateTable();
-      return;
-    }
-    let team = this.tableElements[i];
     this.collapseList();
-    let index;
-    for(let j in this.tableElements){
-      if(team==this.tableElements[j]){
-        index = j;
+    if(!(this.tableElements.length - 1 > i && this.tableElements[i+1].value.type=="game")){
+      let team = this.tableElements[i];
+      let index;
+      for(let j in this.tableElements){
+        if(team==this.tableElements[j]){
+          index = j;
+        }
       }
-    }
-    let games = this.tableElements[index].value.games;
-    for(let k in games){
-      this.tableElements.splice(Number(index)+Number(k)+1, 0, games[k]);
+      let games = this.tableElements[index].value.games;
+      for(let k in games){
+        this.tableElements.splice(Number(index)+Number(k)+1, 0, games[k]);
+      }
     }
     this.updateTable();
   }

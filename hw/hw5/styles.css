@@ -12,7 +12,7 @@ th {
     min-width: 125px;
 }
 
-thead td , th{
+#tableHeader {
     cursor: s-resize;
 }
 
