@@ -186,7 +186,7 @@ class Table {
     .append("svg")
     .attr("height", this.cell.height)
     .attr("width", this.cell.width)
-    .attr("transform", "translate(-5,0) scale(1, 1)");
+    .attr("transform", "translate(-4,0) scale(1, 1)");
 
     barSVG.append("rect")
     .attr("fill", d => this.aggregateColorScale(d.get('value')))

@@ -34,8 +34,8 @@ tbody th{
 }
 
 tbody td {
-    padding-right: 5px;
-    padding-left: 5px;
+    padding-right: 4px;
+    padding-left: 4px;
     border-left: solid 1px #000;
     color:black
 }
