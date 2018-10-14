@@ -9,7 +9,7 @@ d3.json('data/fifa-matches.json').then(function(data) {
 
     //Create a unique "id" field for each game
     csvData.forEach(function (d, i) {
-      d.id = d.Team + d.Opponent + i;
+      d.id = i;
     });
 
     //Create Tree Object
