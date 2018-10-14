@@ -227,8 +227,6 @@ class Table {
   }
 
   updateList(i) {
-    console.log(this.tableElements.length);
-    console.log(this.tableElements);
     if(this.tableElements.length - 1 > i && this.tableElements[i+1].value.type=="game"){
       return this.collapseList();
     }
