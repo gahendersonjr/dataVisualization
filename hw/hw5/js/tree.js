@@ -48,15 +48,19 @@ class Tree {
     let nodeG = tree.selectAll('g')
       .data(nodes)
       .enter()
-      .append("g");
+      .append("g")
+      .attr("class", function(d){
+        if(d.data.Wins>0){
+          return "winner node";
+        }
+        return "node";
+      });
 
     nodeG.append("circle")
-      .attr("class", "node")
       .attr("r", 5)
       .attr("cx", d =>d.y)
       .attr("cy", d =>d.x);
     nodeG.append("text")
-      .attr("class", "node")
       .text(d=> d.data.Team)
       .attr("x", d => d.y-30)
       .attr("y", d => d.x+20);
