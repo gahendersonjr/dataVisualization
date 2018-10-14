@@ -47,14 +47,27 @@ class Table {
       .attr("transform", "translate(0,20) scale(1, 1)")
       .call(goalAxis);
 
-    // ******* TODO: PART V *******
-
-    // Set sorting callback for clicking on headers
-
-
-    // Clicking on headers should also trigger collapseList() and
-    // updateTable().
-
+    d3.select("#team")
+      .on("click", function(){
+        this.collapseList();
+        let element = document.getElementById("team");
+        if(!element.classList.contains("ascending")){
+          this.tableElements.sort(function(a,b){
+            if(a.key < b.key) return -1;
+            if(a.key > b.key) return 1;
+            return 0;
+          });
+          element.classList += " ascending";
+        } else {
+            this.tableElements.sort(function(a,b){
+              if(a.key > b.key) return -1;
+              if(a.key < b.key) return 1;
+              return 0;
+            });
+            element.classList.remove("ascending");
+        }
+        this.updateTable();
+      }.bind(this));
   }
 
   updateTable() {
@@ -228,10 +241,12 @@ class Table {
 
   updateList(i) {
     if(this.tableElements.length - 1 > i && this.tableElements[i+1].value.type=="game"){
-      return this.collapseList();
+      this.collapseList();
+      this.updateTable();
+      return;
     }
     let team = this.tableElements[i];
-    this.tableElements = this.teamData.slice(0, this.teamData.size);
+    this.collapseList();
     let index;
     for(let j in this.tableElements){
       if(team==this.tableElements[j]){
@@ -242,13 +257,15 @@ class Table {
     for(let k in games){
       this.tableElements.splice(Number(index)+Number(k)+1, 0, games[k]);
     }
-    d3.select("#matchTable").select("tBody").selectAll("tr").remove();
     this.updateTable();
   }
 
   collapseList() {
-    this.tableElements = this.teamData.slice(0, this.teamData.size);
+    for (let i = this.tableElements.length - 1; i>=0; i--){
+      if(this.tableElements[i].value.type=="game"){
+        this.tableElements.splice(i, 1);
+      }
+    }
     d3.select("#matchTable").select("tBody").selectAll("tr").remove();
-    this.updateTable();
   }
 }
