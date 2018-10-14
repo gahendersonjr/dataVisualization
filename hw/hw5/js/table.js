@@ -1,24 +1,15 @@
-/** Class implementing the table. */
-class Table {
-  /**
-   * Creates a Table Object
-   */
-  constructor(teamData, treeObject) {
 
-    // Maintain reference to the tree Object;
+class Table {
+
+  constructor(teamData, treeObject) {
     this.tree = treeObject;
 
-    // Create list of all elements that will populate the table
-    // Initially, the tableElements will be identical to the teamData
     this.tableElements = teamData.slice(0, teamData.size); //
 
-    // Store all match data for the 2014 Fifa cup
     this.teamData = teamData;
 
-    // Default values for the Table Headers
     this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
 
-    // To be used when sizing the svgs in the table cells.
     this.cell = {
       "width": 70,
       "height": 20,
@@ -29,40 +20,22 @@ class Table {
       "height": 20
     };
 
-    // Set variables for commonly accessed data columns
     this.goalsMadeHeader = 'Goals Made';
     this.goalsConcededHeader = 'Goals Conceded';
 
-    // // Setup the scales
     this.goalScale = d3.scaleLinear()
       .domain([0, d3.max([d3.max(this.teamData, d => d.value[this.goalsMadeHeader]), d3.max(this.teamData, d => d.value[this.goalsConcededHeader])])])
       .range([10,135]);
 
-
-
-    // Used for games/wins/losses
     this.gameScale = d3.scaleLinear()
       .domain([0, d3.max(this.teamData, d => d.value.TotalGames)]);
 
-    // Color scales
-    // For aggregate columns  Use colors '#ece2f0', '#016450' for the range.
     this.aggregateColorScale = d3.scaleLinear()
       .domain([0, d3.max(this.teamData, d => d.value.TotalGames)])
       .range(['#ece2f0', '#016450']);
   }
 
-
-  /**
-   * Creates a table skeleton including headers that when clicked allow
-   * you to sort the table by the chosen attribute.
-   * Also calculates aggregate values of goals, wins, losses and total
-   * games as a function of country.
-   */
   createTable() {
-    // ******* TODO: PART II *******
-    // Update Scale Domains
-    // Create the x axes for the goalScale.
-    // console.log(this.teamData[0].value["Goals Made"]);
     let goalAxis = d3.axisTop()
       .scale(this.goalScale);
 
@@ -84,41 +57,51 @@ class Table {
 
   }
 
-
-  /**
-   * Updates the table contents with a row for each element in the global
-   * variable tableElements.
-   */
   updateTable() {
-    // ******* TODO: PART III *******
-    // Create table rows
     let table = d3.select("#matchTable").select("tBody");
-
     table.selectAll("tr").
       data(this.tableElements).
-      enter().
-      append("tr");
+      enter()
+      .append("tr")
+      .attr("class", d=>d.value.type)
+      .on("click", function(d, i){
+        if(d.value.type=="aggregate"){
+          this.updateList(i);
+        }
+      }.bind(this));
 
     let td = table.selectAll("tr").selectAll("td").data(function(d){
       let data = [];
-      let team = [['type', 'aggregate'],['vis', 'header'],['value', d.key]];
-      data.push(new Map(team));
-      let goals = [['type', 'aggregate'],['vis', 'goals'],['value', [d.value["Goals Made"],d.value["Goals Conceded"]]]];
-      data.push(new Map(goals));
-      let result = [['type', 'aggregate'],['vis', 'text'],['value', d.value.Result.label]];
+      let result = [['vis', 'text'],['value', d.value.Result.label]];
       data.push(new Map(result));
-      let wins = [['type', 'aggregate'],['vis', 'bar'],['value', d.value.Wins]];
-      data.push(new Map(wins));
-      let losses = [['type', 'aggregate'],['vis', 'bar'],['value', d.value.Losses]];
-      data.push(new Map(losses));
-      let totalGames = [['type', 'aggregate'],['vis', 'bar'],['value', d.value.TotalGames]];
-      data.push(new Map(totalGames));
+      if(d.value.type=="aggregate"){
+        let goals = [['vis', 'goals'],['value', [d.value["Goals Made"],d.value["Goals Conceded"]]], ["type", "aggregate"]];
+        data.push(new Map(goals));
+        let team = [['vis', 'header'],['value', d.key]];
+        data.push(new Map(team));
+        let wins = [['vis', 'bar'],['value', d.value.Wins]];
+        data.push(new Map(wins));
+        let losses = [['vis', 'bar'],['value', d.value.Losses]];
+        data.push(new Map(losses));
+        let totalGames = [['vis', 'bar'],['value', d.value.TotalGames]];
+        data.push(new Map(totalGames));
+      }else if (d.value.type=="game"){
+        let goals = [['vis', 'goals'],['value', [d.value["Goals Made"],d.value["Goals Conceded"]]], ["type", "game"]];
+        data.push(new Map(goals));
+        let team = [['vis', 'header'],['value', "x" + d.key]];
+        data.push(new Map(team));
+        let wins = [['vis', 'bar'],['value', 0]];
+        data.push(new Map(wins));
+        let losses = [['vis', 'bar'],['value', 0]];
+        data.push(new Map(losses));
+        let totalGames = [['vis', 'bar'],['value', 0]];
+        data.push(new Map(totalGames));
+      }
       return data;
     })
     .enter();
 
     // Append th elements for the Team Names
-
     td.filter(function(d){
       return d.get('vis')=='header';
     })
@@ -144,31 +127,74 @@ class Table {
         return "#cb181d";
       })
       .attr("x", d => this.goalScale(d3.min([d.get('value')[0], d.get('value')[1]])))
-      .attr("height", 20)
+      .attr("y", function(d){
+        if(d.get("type")=="game"){
+          return 5;
+        }
+      })
+      .attr("height", function(d){
+        if(d.get("type")=="game"){
+          return 8;
+        }
+        return 20;
+      })
       .attr("width", d => this.goalScale(Math.abs(d.get('value')[0]-d.get('value')[1]))-10);
       //conceded
       goalSVG.append("circle")
       .attr("cx", d => this.goalScale(d.get('value')[1]))
       .attr("fill", function(d){
+        if(d.get('type')=="game"){
+          return "white";
+        }
         if(d.get('value')[0]==d.get('value')[1]){
           return "#b1b1b1"
         }
         return "#cb181d";
       })
+      .attr("stroke", function(d){
+        if(d.get('type')=="game"){
+          if(d.get('value')[0]==d.get('value')[1]){
+            return "#b1b1b1"
+          }
+          return "#cb181d";
+        }
+      })
       .attr("cy", 10)
-      .attr("r", 10)
+      .attr("r", function(d){
+        if(d.get('type')=="game"){
+          return 7;
+        }
+        return 10;
+      })
       .attr("class", "goalCircle");
     //made
     goalSVG.append("circle")
     .attr("cx", d => this.goalScale(d.get('value')[0]))
     .attr("fill", function(d){
+      if(d.get('type')=="game"){
+        return "white";
+      }
       if(d.get('value')[0]==d.get('value')[1]){
         return "#b1b1b1"
       }
       return "#034e7b";
     })
+    .attr("stroke", function(d){
+      if(d.get('type')=="game"){
+        if(d.get('value')[0]==d.get('value')[1]){
+          return "#b1b1b1"
+        }
+        return "#034e7b";
+      }
+
+    })
     .attr("cy", 10)
-    .attr("r", 10)
+    .attr("r", function(d){
+      if(d.get('type')=="game"){
+        return 7;
+      }
+      return 10;
+    })
     .attr("class", "goalCircle");
 
     //result
@@ -198,38 +224,33 @@ class Table {
     .text(d => d.get('value'))
     .attr("x", d => this.gameScale(d.get('value'))*this.cell.width - 10)
     .attr("y", "15");
-
-    // Append td elements for the remaining columns.
-    // Data for each cell is of the type: {'type':<'game' or 'aggregate'>,
-    // 'value':<[array of 1 or two elements]>}
-
-    //Add scores as title property to appear on hover
-
-    //Populate cells (do one type of cell at a time)
-
-    //Create diagrams in the goals column
-
-    //Set the color of all games that tied to light gray
-
-  };
-
-  /**
-   * Updates the global tableElements variable, with a row for each row
-   * to be rendered in the table.
-   */
-  updateList(i) {
-    // ******* TODO: PART IV *******
-
-    // Only update list for aggregate clicks, not game clicks
   }
 
-  /**
-   * Collapses all expanded countries, leaving only rows for aggregate
-   * values per country.
-   */
+  updateList(i) {
+    console.log(this.tableElements.length);
+    console.log(this.tableElements);
+    if(this.tableElements.length - 1 > i && this.tableElements[i+1].value.type=="game"){
+      return this.collapseList();
+    }
+    let team = this.tableElements[i];
+    this.tableElements = this.teamData.slice(0, this.teamData.size);
+    let index;
+    for(let j in this.tableElements){
+      if(team==this.tableElements[j]){
+        index = j;
+      }
+    }
+    let games = this.tableElements[index].value.games;
+    for(let k in games){
+      this.tableElements.splice(Number(index)+Number(k)+1, 0, games[k]);
+    }
+    d3.select("#matchTable").select("tBody").selectAll("tr").remove();
+    this.updateTable();
+  }
+
   collapseList() {
-
-    // ******* TODO: PART IV *******
-
+    this.tableElements = this.teamData.slice(0, this.teamData.size);
+    d3.select("#matchTable").select("tBody").selectAll("tr").remove();
+    this.updateTable();
   }
 }
