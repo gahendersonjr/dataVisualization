@@ -36,7 +36,7 @@ class Table {
     // // Setup the scales
     this.goalScale = d3.scaleLinear()
       .domain([0, d3.max([d3.max(this.teamData, d => d.value[this.goalsMadeHeader]), d3.max(this.teamData, d => d.value[this.goalsConcededHeader])])])
-      .range([10,145]);
+      .range([10,135]);
 
 
 
@@ -49,9 +49,6 @@ class Table {
     this.aggregateColorScale = d3.scaleLinear()
       .domain([0, d3.max(this.teamData, d => d.value.TotalGames)])
       .range(['#ece2f0', '#016450']);
-
-    // For goal Column. Use colors '#cb181d', '#034e7b'  for the range.
-    this.goalColorScale = null;
   }
 
 
@@ -72,12 +69,10 @@ class Table {
     d3.select("#goalHeader")
       .append("svg")
       .attr("height", 25)
-      .attr("width", 160)
+      .attr("width", 150)
       .append("g")
       .attr("transform", "translate(0,20) scale(1, 1)")
       .call(goalAxis);
-
-    // Add GoalAxis to header of col 1.
 
     // ******* TODO: PART V *******
 
@@ -95,7 +90,6 @@ class Table {
    * variable tableElements.
    */
   updateTable() {
-    console.log(this.cell.height);
     // ******* TODO: PART III *******
     // Create table rows
     let table = d3.select("#matchTable").select("tBody");
@@ -132,11 +126,50 @@ class Table {
     .html(d => d.get('value'));
 
     //goals
-    td.filter(function(d){
+    let goalSVG = td.filter(function(d){
       return d.get('vis')=='goals';
     })
     .append("td")
-    .html(d => "goals" + d.get('value'));
+    .append("svg")
+    .attr("height", this.cell.height)
+    .attr("width", 150)
+    .attr("transform", "translate(-4,0) scale(1, 1)");
+    //goal diff
+    goalSVG.append("rect")
+      .attr("class", "goalBar")
+      .attr("fill", function(d){
+        if(d.get("value")[0] > d.get("value")[1]){
+          return "#034e7b"
+        }
+        return "#cb181d";
+      })
+      .attr("x", d => this.goalScale(d3.min([d.get('value')[0], d.get('value')[1]])))
+      .attr("height", 20)
+      .attr("width", d => this.goalScale(Math.abs(d.get('value')[0]-d.get('value')[1]))-10);
+      //conceded
+      goalSVG.append("circle")
+      .attr("cx", d => this.goalScale(d.get('value')[1]))
+      .attr("fill", function(d){
+        if(d.get('value')[0]==d.get('value')[1]){
+          return "#b1b1b1"
+        }
+        return "#cb181d";
+      })
+      .attr("cy", 10)
+      .attr("r", 10)
+      .attr("class", "goalCircle");
+    //made
+    goalSVG.append("circle")
+    .attr("cx", d => this.goalScale(d.get('value')[0]))
+    .attr("fill", function(d){
+      if(d.get('value')[0]==d.get('value')[1]){
+        return "#b1b1b1"
+      }
+      return "#034e7b";
+    })
+    .attr("cy", 10)
+    .attr("r", 10)
+    .attr("class", "goalCircle");
 
     //result
     td.filter(function(d){

@@ -108,7 +108,7 @@ header {
 
 .goalCircle{
     stroke-width: 3px;
-    r:5;
+    r:10;
 }
 
 
@@ -151,5 +151,3 @@ header {
     padding: 0.5em;
     float: left;
 }
-
-
