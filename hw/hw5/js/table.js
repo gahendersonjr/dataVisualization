@@ -194,6 +194,12 @@ class Table {
         if(d.value.type=="aggregate"){
           this.updateList(i);
         }
+      }.bind(this))
+      .on("mouseover", function(d){
+        this.tree.updateTree(d);
+      }.bind(this))
+      .on("mouseout", function(d){
+        this.tree.clearTree();
       }.bind(this));
 
     let td = table.selectAll("tr").selectAll("td").data(function(d){
@@ -353,19 +359,22 @@ class Table {
   }
 
   updateList(i) {
+    if(this.tableElements.length - 1 > i && this.tableElements[i+1].value.type=="game"){
+      this.collapseList();
+      this.updateTable();
+      return;
+    }
+    let team = this.tableElements[i];
     this.collapseList();
-    if(!(this.tableElements.length - 1 > i && this.tableElements[i+1].value.type=="game")){
-      let team = this.tableElements[i];
-      let index;
-      for(let j in this.tableElements){
-        if(team==this.tableElements[j]){
-          index = j;
-        }
+    let index;
+    for(let j in this.tableElements){
+      if(team==this.tableElements[j]){
+        index = j;
       }
-      let games = this.tableElements[index].value.games;
-      for(let k in games){
-        this.tableElements.splice(Number(index)+Number(k)+1, 0, games[k]);
-      }
+    }
+    let games = this.tableElements[index].value.games;
+    for(let k in games){
+      this.tableElements.splice(Number(index)+Number(k)+1, 0, games[k]);
     }
     this.updateTable();
   }

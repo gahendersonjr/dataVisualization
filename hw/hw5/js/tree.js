@@ -21,16 +21,12 @@ class Tree {
         .parentId(d => d.ParentGame);
 
     let root = makeHierarchy(treeData);
-    console.log(root);
 
     let mapFunction = d3.tree().size([800, 400]);
     let mapped = mapFunction(root);
 
     let nodes = mapped.descendants();
     let links = mapped.descendants().slice(1);
-
-    console.log(nodes);
-    console.log(links);
 
     let tree = d3.select("#tree");
     tree.selectAll("path")
@@ -50,11 +46,14 @@ class Tree {
       .enter()
       .append("g")
       .attr("class", function(d){
+        let classes = "node"
         if(d.data.Wins>0){
-          return "winner node";
+          classes += " winner";
         }
-        return "node";
-      });
+        classes += " " + d.data.Team;
+        return classes;
+      })
+      .attr("id", d => d.data.Team + d.data.Opponent);
 
     nodeG.append("circle")
       .attr("r", 5)
@@ -66,15 +65,6 @@ class Tree {
       .attr("y", d => d.x+20);
       ;
 
-
-    // ******* TODO: PART VI *******
-
-    // Create a tree and give it a size() of 800 by 300.
-
-    // Create a root for the tree using d3.stratify();
-
-    // Add nodes and links to the tree.
-
   };
 
   /**
@@ -85,7 +75,19 @@ class Tree {
    */
   updateTree(row) {
     // ******* TODO: PART VII *******
-
+    let elements = [];
+    if(row.value.type=="aggregate"){
+      elements = document.getElementsByClassName(row.key);
+    } else if (row.value.type=="game"){
+      console.log(row);
+      elements.push(document.getElementById(row.key + row.value.Opponent));
+      elements.push(document.getElementById(row.value.Opponent + row.key));
+    }
+    for(let i in elements){
+      if(elements[i] && elements[i].classList){
+        elements[i].classList.add("selectedLabel");
+      }
+    }
   }
 
   /**
@@ -93,7 +95,12 @@ class Tree {
    */
   clearTree() {
     // ******* TODO: PART VII *******
-
+    let elements = document.getElementsByClassName("selectedLabel");
+    for(let i = elements.length -1; i>=0; i--){
+      if(elements[i].classList){
+        elements[i].classList.remove("selectedLabel");
+      }
+    }
     // You only need two lines of code for this! No loops!
   }
 }
