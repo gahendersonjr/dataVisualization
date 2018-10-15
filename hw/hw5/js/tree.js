@@ -33,7 +33,14 @@ class Tree {
       .data(links)
       .enter()
       .append("path")
-      .attr("class", "link")
+      .attr("class", function(d){
+        let classes = "link";
+        if(d.data.Wins>0){
+          classes += " " + d.data.Team + "Win";
+        }
+        return classes;
+      })
+      .attr("id", d => d.data.Team + d.data.Opponent + "Path")
       .attr("d", function(d) {
         return `M ${d.y},${d.x} C ` +
         `${(d.y+d.parent.y)/2},${d.x} ` +
@@ -46,7 +53,7 @@ class Tree {
       .enter()
       .append("g")
       .attr("class", function(d){
-        let classes = "node"
+        let classes = "node";
         if(d.data.Wins>0){
           classes += " winner";
         }
@@ -74,33 +81,31 @@ class Tree {
    * @param row a string specifying which team was selected in the table.
    */
   updateTree(row) {
-    // ******* TODO: PART VII *******
-    let elements = [];
+    let nodes = [];
+    let links = [];
     if(row.value.type=="aggregate"){
-      elements = document.getElementsByClassName(row.key);
+      nodes = document.getElementsByClassName(row.key);
+      links = document.getElementsByClassName(row.key + "Win");
     } else if (row.value.type=="game"){
-      console.log(row);
-      elements.push(document.getElementById(row.key + row.value.Opponent));
-      elements.push(document.getElementById(row.value.Opponent + row.key));
+      nodes.push(document.getElementById(row.key + row.value.Opponent));
+      nodes.push(document.getElementById(row.value.Opponent + row.key));
+      links.push(document.getElementById(row.key + row.value.Opponent + "Path"));
+      links.push(document.getElementById(row.value.Opponent + row.key + "Path"));
     }
-    for(let i in elements){
-      if(elements[i] && elements[i].classList){
-        elements[i].classList.add("selectedLabel");
+    for(let i in nodes){
+      if(nodes[i] && nodes[i].classList){
+        nodes[i].classList.add("selectedLabel");
+      }
+    }
+    for(let j in links){
+      if(links[j] && links[j].classList){
+        links[j].classList.add("selected");
       }
     }
   }
 
-  /**
-   * Removes all highlighting from the tree.
-   */
   clearTree() {
-    // ******* TODO: PART VII *******
-    let elements = document.getElementsByClassName("selectedLabel");
-    for(let i = elements.length -1; i>=0; i--){
-      if(elements[i].classList){
-        elements[i].classList.remove("selectedLabel");
-      }
-    }
-    // You only need two lines of code for this! No loops!
+    d3.selectAll(".selectedLabel").classed("selectedLabel", false);
+    d3.selectAll(".selected").classed("selected", false);
   }
 }
