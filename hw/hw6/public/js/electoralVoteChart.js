@@ -5,9 +5,9 @@ class ElectoralVoteChart {
    *
    * @param shiftChart an instance of the ShiftChart class
    */
-  constructor (shiftChart){
+  constructor (shiftChart, colorScale){
     this.shiftChart = shiftChart;
-    
+
     this.margin = {top: 30, right: 20, bottom: 30, left: 50};
     let divelectoralVotes = d3.select("#electoral-vote").classed("content", true);
 
@@ -22,6 +22,7 @@ class ElectoralVoteChart {
       .attr("height",this.svgHeight)
     ;
 
+    this.colorScale = colorScale;
   };
 
   /**
@@ -49,8 +50,9 @@ class ElectoralVoteChart {
    * @param colorScale global quantile scale based on the winning margin between republicans and democrats
    */
 
-  update (electionResult, colorScale){
-
+  update (electionResult){
+    console.log("electoralVoteChart");
+    console.log(electionResult);
     // ******* TODO: PART II *******
 
     //Group the states based on the winning party for the state;
@@ -82,5 +84,5 @@ class ElectoralVoteChart {
 
   };
 
-  
+
 }

@@ -6,7 +6,7 @@ class TileChart {
    * Initializes the svg elements required to lay the tiles
    * and to populate the legend.
    */
-  constructor(tooltip){
+  constructor(tooltip, colorScale){
 
     let divTiles = d3.select("#tiles").classed("content", true);
     this.margin = {top: 30, right: 20, bottom: 30, left: 50};
@@ -29,6 +29,8 @@ class TileChart {
       .attr("transform", "translate(" + this.margin.left + ",0)")
 
     this.tooltip = tooltip;
+
+    this.colorScale = colorScale;
   };
 
   /**
@@ -56,8 +58,9 @@ class TileChart {
    * @param colorScale global quantile scale based on the winning
    * margin between republicans and democrats
    */
-  update (electionResult, colorScale){
-
+  update (electionResult){
+    console.log("tileChart");
+    
     //Calculates the maximum number of rows and columns
     this.maxColumns = d3.max(electionResult, d => +d.Space) + 1;
     this.maxRows = d3.max(electionResult, d => +d.Row) + 1;
@@ -77,7 +80,7 @@ class TileChart {
     //Call the tool tip on hover over the tiles to display stateName, count of electoral votes
     //then, vote percentage and number of votes won by each party.
     //HINT: Use the .republican, .democrat and .independent classes to style your elements.
-    
+
   };
 
 

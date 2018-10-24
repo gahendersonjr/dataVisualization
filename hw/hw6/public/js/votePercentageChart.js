@@ -60,6 +60,7 @@ class VotePercentageChart {
    * @param electionResult election data for the year selected
    */
   update (electionResult){
+    console.log("votePercentageChart");
     // ******* TODO: PART III *******
 
     //Create the stacked bar chart.
