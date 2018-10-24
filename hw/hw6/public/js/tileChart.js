@@ -6,7 +6,7 @@ class TileChart {
    * Initializes the svg elements required to lay the tiles
    * and to populate the legend.
    */
-  constructor(tooltip, colorScale){
+  constructor(tooltip){
 
     let divTiles = d3.select("#tiles").classed("content", true);
     this.margin = {top: 30, right: 20, bottom: 30, left: 50};
@@ -29,8 +29,6 @@ class TileChart {
       .attr("transform", "translate(" + this.margin.left + ",0)")
 
     this.tooltip = tooltip;
-
-    this.colorScale = colorScale;
   };
 
   /**
@@ -58,9 +56,10 @@ class TileChart {
    * @param colorScale global quantile scale based on the winning
    * margin between republicans and democrats
    */
-  update (electionResult){
+  update (electionResult, colorScale){
     console.log("tileChart");
-    
+    console.log(colorScale);
+
     //Calculates the maximum number of rows and columns
     this.maxColumns = d3.max(electionResult, d => +d.Space) + 1;
     this.maxRows = d3.max(electionResult, d => +d.Row) + 1;

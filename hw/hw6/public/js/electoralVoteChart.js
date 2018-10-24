@@ -5,7 +5,7 @@ class ElectoralVoteChart {
    *
    * @param shiftChart an instance of the ShiftChart class
    */
-  constructor (shiftChart, colorScale){
+  constructor (shiftChart){
     this.shiftChart = shiftChart;
 
     this.margin = {top: 30, right: 20, bottom: 30, left: 50};
@@ -21,8 +21,6 @@ class ElectoralVoteChart {
       .attr("width",this.svgWidth)
       .attr("height",this.svgHeight)
     ;
-
-    this.colorScale = colorScale;
   };
 
   /**
@@ -50,9 +48,9 @@ class ElectoralVoteChart {
    * @param colorScale global quantile scale based on the winning margin between republicans and democrats
    */
 
-  update (electionResult){
+  update (electionResult, colorScale){
     console.log("electoralVoteChart");
-    console.log(electionResult);
+    console.log(colorScale);
     // ******* TODO: PART II *******
 
     //Group the states based on the winning party for the state;

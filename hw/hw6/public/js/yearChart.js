@@ -29,6 +29,16 @@ class YearChart {
       .attr("height", this.svgHeight);
 
     this.selected = null;
+
+    //Domain definition for global color scale
+    let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
+
+    //Color range for global color scale
+    let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
+
+    this.colorScale = d3.scaleQuantile()
+      .domain(domain)
+      .range(range);
   }
 
   /**
@@ -52,10 +62,6 @@ class YearChart {
    * Creates a chart with circles representing each election year, populates text content and other required elements for the Year Chart
    */
   update () {
-    // ******* TODO: PART I *******
-    //
-    // console.log(this.electionWinners);
-
     let num_elements = this.electionWinners.length;
 
     this.svg.append("line")
@@ -81,13 +87,13 @@ class YearChart {
       })
       .on("click", function(d){
         d3.selectAll(".selected").classed("selected", false);
-        d3.select(this).classed("selected", true);
+        d3.select(d3.event.target).classed("selected", true);
         d3.csv("data/Year_Timeline_" + d.YEAR + ".csv").then(electionResults => {
-          electoralVoteChart.update(electionResults);
-          tileChart.update(electionResults);
+          electoralVoteChart.update(electionResults, this.colorScale);
+          tileChart.update(electionResults, this.colorScale);
           votePercentageChart.update(electionResults);
         });
-      });
+      }.bind(this));
     //Append text information of each year right below the corresponding circle
     //HINT: Use .yeartext class to style your text elements
     this.svg.selectAll("text")
