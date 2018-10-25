@@ -23,23 +23,6 @@ class ElectoralVoteChart {
     ;
   };
 
-  /**
-   * Returns the class that needs to be assigned to an element.
-   *
-   * @param party an ID for the party that is being referred to.
-   */
-  chooseClass (party) {
-    if (party == "R"){
-      return "republican";
-    }
-    else if (party == "D"){
-      return "democrat";
-    }
-    else if (party == "I"){
-      return "independent";
-    }
-  }
-
 
   /**
    * Creates the stacked bar chart, text content and tool tips for electoral vote chart
@@ -54,7 +37,7 @@ class ElectoralVoteChart {
     let dem_ev = electionResult[0].D_EV_Total;
     let rep_ev = electionResult[0].R_EV_Total;
     let ind_ev = electionResult[0].I_EV_Total;
-    if(electionResult[0].I_EV_Total==""){
+    if(ind_ev==""){
       ind_ev=0;
     }
     let total_ev = parseFloat(ind_ev) + parseFloat(dem_ev) + parseFloat(rep_ev);
@@ -105,13 +88,14 @@ class ElectoralVoteChart {
     })
     .attr("y", "60")
     .attr("fill", function(d){
-      if(d.State_Winner=="I"){ return "green"; }
+      if(d.State_Winner=="I"){ return "#45AD6A"; }
       return colorScale(d.RD_Difference)
     })
     .classed("electoralVotes", true);
+
     if(ind_ev>0){
       this.svg.append("text")
-      .text(d=> ind_ev)
+      .text(ind_ev)
       .attr("x", 0)
       .attr("y", 50)
       .classed("independent", true)
@@ -119,14 +103,14 @@ class ElectoralVoteChart {
     }
 
     this.svg.append("text")
-      .text(d=> dem_ev)
+      .text(dem_ev)
       .attr("x", barScale(ind_ev))
       .attr("y", 50)
       .classed("democrat", true)
       .classed("electoralVoteText", true);
 
     this.svg.append("text")
-      .text(d=> rep_ev)
+      .text(rep_ev)
       .attr("x", barScale(total_ev))
       .attr("y", 50)
       .classed("republican", true)
@@ -139,11 +123,11 @@ class ElectoralVoteChart {
       .attr("y2", 100)
       .attr("stroke", "black");
 
-      this.svg.append("text")
-        .text("Elecotral Vote (" + Math.ceil(total_ev/2 + 1) + " needed to win)")
-        .attr("x", barScale(total_ev/2))
-        .attr("y", 45)
-        .classed("electoralVotesNote", true);
+    this.svg.append("text")
+      .text("Elecotral Vote (" + Math.ceil(total_ev/2 + 1) + " needed to win)")
+      .attr("x", barScale(total_ev/2))
+      .attr("y", 45)
+      .classed("electoralVotesNote", true);
 
     //******* TODO: PART V *******
     //Implement brush on the bar chart created above.
