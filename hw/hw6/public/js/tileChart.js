@@ -57,8 +57,8 @@ class TileChart {
    * margin between republicans and democrats
    */
   update (electionResult, colorScale){
-    console.log("tileChart");
-    console.log(colorScale);
+    // console.log("tileChart");
+    // console.log(colorScale);
 
     //Calculates the maximum number of rows and columns
     this.maxColumns = d3.max(electionResult, d => +d.Space) + 1;

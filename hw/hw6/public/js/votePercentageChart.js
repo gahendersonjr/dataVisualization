@@ -18,7 +18,6 @@ class VotePercentageChart {
       .attr("width",this.svgWidth)
       .attr("height",this.svgHeight)
 
-    this.tooltip = tooltip;
   }
 
 
@@ -40,27 +39,12 @@ class VotePercentageChart {
   }
 
   /**
-   * Renders the HTML content for tool tip
-   *
-   * @param tooltip_data information that needs to be populated in the tool tip
-   * @return text HTML content for toop tip
-   */
-  tooltip_render (tooltip_data) {
-    let text = "<ul>";
-    tooltip_data.result.forEach((row)=>{
-      text += "<li class = " + this.chooseClass(row.party)+ ">" + row.nominee+":\t\t"+row.votecount+"("+row.percentage+"%)" + "</li>"
-    });
-
-    return text;
-  }
-
-  /**
    * Creates the stacked bar chart, text content and tool tips for Vote Percentage chart
    *
    * @param electionResult election data for the year selected
    */
   update (electionResult){
-    console.log("votePercentageChart");
+    // console.log("votePercentageChart");
     // ******* TODO: PART III *******
 
     //Create the stacked bar chart.
@@ -77,12 +61,6 @@ class VotePercentageChart {
 
     //Just above this, display the text mentioning details about this mark on top of this bar
     //HINT: Use .votesPercentageNote class to style this text element
-
-    //Call the tool tip on hover over the bars to display stateName, count of electoral votes.
-    //then, vote percentage and number of votes won by each party.
-
-    //HINT: Use the chooseClass method to style your elements based on party wherever necessary.
-
   };
 
 
