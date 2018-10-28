@@ -27,7 +27,6 @@ class VotePercentageChart {
    */
   update (electionResult){
     this.svg.selectAll("*").remove();
-    console.log(electionResult);
     let dem_percent = electionResult[0].D_PopularPercentage;
     let rep_percent = electionResult[0].R_PopularPercentage;
     let ind_percent = electionResult[0].I_PopularPercentage;
@@ -137,18 +136,6 @@ class VotePercentageChart {
       .attr("x", barScale(total_percent_clean/2))
       .attr("y", 45)
       .classed("votesPercentageNote", true);
-    //HINT: Use .votesPercentage class to style your bars.
-
-    //Display the total percentage of votes won by each party
-    //on top of the corresponding groups of bars.
-    //HINT: Use the .votesPercentageText class to style your text elements;  Use this in combination with
-    // chooseClass to get a color based on the party wherever necessary
-
-    //Display a bar with minimal width in the center of the bar chart to indicate the 50% mark
-    //HINT: Use .middlePoint class to style this bar.
-
-    //Just above this, display the text mentioning details about this mark on top of this bar
-    //HINT: Use .votesPercentageNote class to style this text element
   };
 
 

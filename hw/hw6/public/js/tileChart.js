@@ -57,12 +57,56 @@ class TileChart {
    * margin between republicans and democrats
    */
   update (electionResult, colorScale){
-    // console.log("tileChart");
-    // console.log(colorScale);
+    this.svg.selectAll("*").remove();
 
     //Calculates the maximum number of rows and columns
-    this.maxColumns = d3.max(electionResult, d => +d.Space) + 1;
-    this.maxRows = d3.max(electionResult, d => +d.Row) + 1;
+    let maxColumns = d3.max(electionResult, d => +d.Space) + 1;
+    let maxRows = d3.max(electionResult, d => +d.Row) + 1;
+
+    let squareHeight = this.svgHeight / maxRows;
+    let squareWidth = this.svgWidth / maxColumns;
+    console.log(squareHeight);
+    console.log(squareWidth);
+    // this.svg.selectAll("text")
+    //   .data(electionResult)
+    //   .enter().
+    //   append("text").
+    //   text(d => d.State).
+    //   attr("y", d=>d.Row*20+20).
+    //   attr("x", d=>d.Space*60);
+    this.svg.selectAll("rect")
+      .data(electionResult)
+      .enter()
+      .append("rect")
+      .attr("id", d => d.State)
+      .attr("y", d=>d.Row*squareHeight)
+      .attr("x", d=>d.Space*squareWidth)
+      .attr("height", squareHeight)
+      .attr("width", squareWidth)
+      .classed("tile", true)
+      .attr("fill", function(d){
+        if(d.State_Winner=="I"){ return "#45AD6A"; }
+        return colorScale(d.RD_Difference)
+      });
+
+    let enter = this.svg.selectAll("text")
+      .data(electionResult)
+      .enter();
+
+    enter
+      .append("text")
+      .text(d=> d.Abbreviation)
+      .attr("y", d=>d.Row*squareHeight+squareHeight/2)
+      .attr("x", d=>d.Space*squareWidth+squareHeight/2)
+      .classed("tilestext", true);
+
+    enter
+      .append("text")
+      .text(d=> d.Total_EV)
+      .attr("y", d=>d.Row*squareHeight+squareHeight/2+24)
+      .attr("x", d=>d.Space*squareWidth+squareHeight/2)
+      .classed("tilestext", true);
+
 
     // ******* TODO: PART IV *******
     //Tansform the legend element to appear in the center and make a call to this element for it to display.
