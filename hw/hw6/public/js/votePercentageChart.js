@@ -26,6 +26,7 @@ class VotePercentageChart {
    * @param electionResult election data for the year selected
    */
   update (electionResult){
+    this.svg.selectAll("*").remove();
     //TODO: BAR NOT SHOWING UP IN ALL CASES, NOT WORKING
     console.log(electionResult);
     let dem_percent = electionResult[0].D_PopularPercentage;
@@ -35,6 +36,9 @@ class VotePercentageChart {
     let dem_percent_clean = electionResult[0].D_PopularPercentage.replace("%", "");
     let rep_percent_clean = electionResult[0].R_PopularPercentage.replace("%", "");
     let ind_percent_clean = electionResult[0].I_PopularPercentage.replace("%", "");
+    console.log(dem_percent_clean);
+    console.log(rep_percent_clean);
+    console.log(ind_percent_clean);
 
     let dem_candidate = electionResult[0].D_Nominee_prop;
     let rep_candidate = electionResult[0].R_Nominee_prop;
@@ -81,14 +85,14 @@ class VotePercentageChart {
     this.svg.append("text")
       .text(ind_percent)
       .attr("x", 0)
-      .attr("y", 50)
+      .attr("y", 150)
       .classed("independent", true)
       .classed("electoralVoteText", true);
 
     this.svg.append("text")
       .text(ind_candidate)
       .attr("x", 0)
-      .attr("y", 20)
+      .attr("y", 120)
       .classed("independent", true)
       .classed("electoralVoteText", true);
 
@@ -112,6 +116,14 @@ class VotePercentageChart {
       .attr("y", 50)
       .classed("republican", true)
       .classed("electoralVoteText", true);
+
+    this.svg.append("text")
+      .text(rep_candidate)
+      .attr("x", barScale(100))
+      .attr("y", 20)
+      .classed("republican", true)
+      .classed("electoralVoteText", true);
+
 
     this.svg.append("line")
       .attr("x1", barScale(50))
