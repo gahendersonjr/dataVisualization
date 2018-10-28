@@ -27,7 +27,6 @@ class VotePercentageChart {
    */
   update (electionResult){
     this.svg.selectAll("*").remove();
-    //TODO: BAR NOT SHOWING UP IN ALL CASES, NOT WORKING
     console.log(electionResult);
     let dem_percent = electionResult[0].D_PopularPercentage;
     let rep_percent = electionResult[0].R_PopularPercentage;
@@ -36,9 +35,10 @@ class VotePercentageChart {
     let dem_percent_clean = electionResult[0].D_PopularPercentage.replace("%", "");
     let rep_percent_clean = electionResult[0].R_PopularPercentage.replace("%", "");
     let ind_percent_clean = electionResult[0].I_PopularPercentage.replace("%", "");
-    console.log(dem_percent_clean);
-    console.log(rep_percent_clean);
-    console.log(ind_percent_clean);
+    let total_percent_clean = parseFloat(dem_percent_clean) + parseFloat(rep_percent_clean);
+    if(ind_percent_clean!=""){
+      total_percent_clean = total_percent_clean + parseFloat(ind_percent_clean);
+    }
 
     let dem_candidate = electionResult[0].D_Nominee_prop;
     let rep_candidate = electionResult[0].R_Nominee_prop;
@@ -112,31 +112,31 @@ class VotePercentageChart {
 
     this.svg.append("text")
       .text(rep_percent)
-      .attr("x", barScale(100))
+      .attr("x", barScale(total_percent_clean))
       .attr("y", 50)
       .classed("republican", true)
       .classed("electoralVoteText", true);
 
     this.svg.append("text")
       .text(rep_candidate)
-      .attr("x", barScale(100))
+      .attr("x", barScale(total_percent_clean))
       .attr("y", 20)
       .classed("republican", true)
       .classed("electoralVoteText", true);
 
 
     this.svg.append("line")
-      .attr("x1", barScale(50))
+      .attr("x1", barScale(total_percent_clean/2))
       .attr("y1", 50)
-      .attr("x2", barScale(50))
+      .attr("x2", barScale(total_percent_clean/2))
       .attr("y2", 100)
       .attr("stroke", "black");
 
     this.svg.append("text")
       .text("Popular Vote (50%)")
-      .attr("x", barScale(50))
+      .attr("x", barScale(total_percent_clean/2))
       .attr("y", 45)
-      .classed("electoralVotesNote", true);
+      .classed("votesPercentageNote", true);
     //HINT: Use .votesPercentage class to style your bars.
 
     //Display the total percentage of votes won by each party
