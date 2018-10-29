@@ -130,6 +130,9 @@ class ElectoralVoteChart {
       .attr("y", 45)
       .classed("electoralVotesNote", true);
 
+    function brushed() {
+    console.log(d3.selectAll(d3.event.selection));
+  }
 
     let brush = d3.brushX().extent([[0,60],[this.svgWidth,90]]).on("end", brushed);
     //

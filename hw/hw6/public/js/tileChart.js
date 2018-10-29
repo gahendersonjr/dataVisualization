@@ -103,6 +103,26 @@ class TileChart {
       .attr("x", d=>d.Space*squareWidth+squareHeight/2)
       .classed("tilestext", true);
 
+    let values = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
+    let legendSvg = this.legendSvg.selectAll("rect")
+      .data(values)
+      .enter();
+    legendSvg
+      .append("rect")
+      .classed("electoralVotes", true)
+      .attr("x", (d,i) => i*(this.svgWidth/12))
+      .attr("y", 20)
+      .attr("height", 20)
+      .attr("width", this.svgWidth/12)
+      .attr("fill", d=>colorScale(d));
+    legendSvg
+      .append("text")
+      .attr("x", (d,i) => i*(this.svgWidth/12))
+      .attr("y", 55)
+      .attr("font-size", 14)
+      .text( d => d + ".0% to " + (d+10) + "%");
+
+
 
     // ******* TODO: PART IV *******
     //Tansform the legend element to appear in the center and make a call to this element for it to display.
