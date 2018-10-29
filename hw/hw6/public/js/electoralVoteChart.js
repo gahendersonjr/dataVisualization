@@ -32,7 +32,7 @@ class ElectoralVoteChart {
    */
 
   update (electionResult, colorScale){
-    this.svg.selectAll("*").remove();
+    let a = this.svg.selectAll("*").remove();
 
     let dem_ev = electionResult[0].D_EV_Total;
     let rep_ev = electionResult[0].R_EV_Total;
@@ -91,6 +91,7 @@ class ElectoralVoteChart {
       if(d.State_Winner=="I"){ return "#45AD6A"; }
       return colorScale(d.RD_Difference)
     })
+    .attr("id", d => d.State)
     .classed("electoralVotes", true);
 
     if(ind_ev>0){
@@ -129,6 +130,10 @@ class ElectoralVoteChart {
       .attr("y", 45)
       .classed("electoralVotesNote", true);
 
+
+    let brush = d3.brushX().extent([[0,60],[this.svgWidth,90]]).on("end", brushed);
+    //
+    this.svg.append("g").attr("class", "brush").call(brush);
     //******* TODO: PART V *******
     //Implement brush on the bar chart created above.
     //Implement a call back method to handle the brush end event.

@@ -1,4 +1,4 @@
-/** Class implementing the shiftChart. */
+ /** Class implementing the shiftChart. */
 class ShiftChart {
 
   /**
@@ -15,6 +15,7 @@ class ShiftChart {
    * @param selectedStates data corresponding to the states selected on brush
    */
   update(selectedStates){
+    console.log(selectedStates);
     // ******* TODO: PART V *******
     //Display the names of selected states in a list
 

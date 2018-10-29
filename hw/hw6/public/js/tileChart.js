@@ -65,15 +65,7 @@ class TileChart {
 
     let squareHeight = this.svgHeight / maxRows;
     let squareWidth = this.svgWidth / maxColumns;
-    console.log(squareHeight);
-    console.log(squareWidth);
-    // this.svg.selectAll("text")
-    //   .data(electionResult)
-    //   .enter().
-    //   append("text").
-    //   text(d => d.State).
-    //   attr("y", d=>d.Row*20+20).
-    //   attr("x", d=>d.Space*60);
+
     this.svg.selectAll("rect")
       .data(electionResult)
       .enter()
