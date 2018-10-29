@@ -87,7 +87,11 @@ class TileChart {
       .attr("fill", function(d){
         if(d.State_Winner=="I"){ return "#45AD6A"; }
         return colorScale(d.RD_Difference)
-      });
+      })
+      .on("mouseover", d=>this.tooltip.mouseover(d))
+      .on("mousemove", d=>this.tooltip.mousemove(d))
+      .on("mouseout", d=>this.tooltip.mouseout(d))
+      ;
 
     let enter = this.svg.selectAll("text")
       .data(electionResult)
